@@ -1,0 +1,62 @@
+# {{ ansible_managed }}
+
+#  /etc/rsyslog.conf	Configuration file for rsyslog.
+#
+#			For more information see
+#			/usr/share/doc/rsyslog-doc/html/rsyslog_conf.html
+#
+#  Default logging rules can be found in /etc/rsyslog.d/50-default.conf
+
+
+#################
+#### MODULES ####
+#################
+
+$ModLoad imuxsock # provides support for local system logging
+$ModLoad imklog   # provides kernel logging support
+#$ModLoad immark  # provides --MARK-- message capability
+
+# provides UDP syslog reception
+#$ModLoad imudp
+#$UDPServerRun 514
+
+# provides TCP syslog reception
+#$ModLoad imtcp
+#$InputTCPServerRun 514
+
+# Enable non-kernel facility klog messages
+$KLogPermitNonKernelFacility {{ rsyslog_klog_permit_non_kernel_facility }}
+
+###########################
+#### GLOBAL DIRECTIVES ####
+###########################
+
+#
+# Use traditional timestamp format.
+# To enable high precision timestamps, comment out the following line.
+#
+$ActionFileDefaultTemplate {{ rsyslog_action_file_default_template }}
+
+# Filter duplicated messages
+$RepeatedMsgReduction {{ rsyslog_repeated_msg_reduction }}
+
+#
+# Set the default permissions for all log files.
+#
+$FileOwner {{ rsyslog_file_owner }}
+$FileGroup {{ rsyslog_file_group }}
+$FileCreateMode {{ rsyslog_file_create_mode }}
+$DirCreateMode {{ rsyslog_dir_create_mode }}
+$Umask {{ rsyslog_umask }}
+$PrivDropToUser {{ rsyslog_priv_drop_to_user }}
+$PrivDropToGroup {{ rsyslog_priv_drop_to_group }}
+
+#
+# Where to place spool and state files
+#
+$WorkDirectory {{ rsyslog_work_directory }}
+
+#
+# Include all config files in /etc/rsyslog.d/
+#
+$IncludeConfig {{ rsyslog_include_config }}

@@ -1,2 +1,6 @@
 ---
 # defaults file for rsyslog
+
+rsyslog_repeated_msg_reduction: "on"
+rsyslog_action_file_default_template: RSYSLOG_TraditionalFileFormat
+rsyslog_klog_permit_non_kernel_facility: "on"
