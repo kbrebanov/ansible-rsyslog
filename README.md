@@ -1,6 +1,8 @@
 rsyslog
 =======
 
+[![Ansible Galaxy](https://img.shields.io/badge/galaxy-kbrebanov.rsyslog-660198.svg)](https://galaxy.ansible.com/list#/roles/3392)
+
 Installs and configures rsyslog
 
 Requirements
