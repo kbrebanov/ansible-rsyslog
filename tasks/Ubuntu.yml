@@ -2,6 +2,6 @@
 # tasks file for rsyslog (Ubuntu specific)
 
 - name: Install rsyslog packages
-  apt: name={{ item }} state=present update_cache=yes
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=3600
   with_items: rsyslog_packages
   tags: rsyslog
