@@ -52,6 +52,17 @@
   notify: restart rsyslog
   tags: rsyslog
 
+- name: Create application specific configuration files
+  template: >
+    src=app.conf.j2
+    dest=/etc/rsyslog.d/{{ item.priority }}-{{ item.name }}.conf
+    owner=root
+    group=root
+    mode=0644
+  with_items: rsyslog_apps
+  notify: restart rsyslog
+  tags: rsyslog
+
 - name: Ensure rsyslog service is started and enabled on boot
   service: name={{ rsyslog_service_name }} state=started enabled=yes
   tags: rsyslog

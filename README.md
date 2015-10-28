@@ -23,6 +23,7 @@ Role Variables
 | rsyslog_udp_port                        | 514                           | UDP port                                      |
 | rsyslog_tcp_enable                      | false                         | Enable or disable rsyslog to listen on TCP    |
 | rsyslog_tcp_port                        | 514                           | TCP port                                      |
+| rsyslog_apps                            | []                            | List of hashes for app specific configs       |
 
 Dependencies
 ------------
@@ -36,14 +37,32 @@ Install rsyslog
 ```
 - hosts: all
   roles:
-    - { role: kbrebanov.rsyslog }
+    - kbrebanov.rsyslog
 ```
 
 Install rsyslog and disable repeated msg reduction
 ```
 - hosts: all
+  vars:
+    rsyslog_repeated_msg_reduction: "off"
   roles:
-    - { role: kbrebanov.rsyslog, rsyslog_repeated_msg_reduction: "off" }
+    - kbrebanov.rsyslog
+```
+
+Install rsyslog and configure logging options for HAProxy
+```
+- hosts: all
+  vars:
+    rsyslog_apps:
+      - name: haproxy
+        priority: 49
+        lines:
+          - "local0.* -/var/log/haproxy_0.log"
+          - "local1.* -/var/log/haproxy_1.log"
+          - "& ~"
+  roles:
+    - kbrebanov.rsyslog
+
 ```
 
 License
