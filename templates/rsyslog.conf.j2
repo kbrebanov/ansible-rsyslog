@@ -17,12 +17,25 @@ $ModLoad imklog   # provides kernel logging support
 #$ModLoad immark  # provides --MARK-- message capability
 
 # provides UDP syslog reception
+{% if rsyslog_udp_enable %}
+$ModLoad imudp
+$UDPServerAddress {{ rsyslog_udp_address }}
+$UDPServerRun {{ rsyslog_udp_port }}
+{% else %}
 #$ModLoad imudp
-#$UDPServerRun 514
+#$UDPServerAddress {{ rsyslog_udp_address }}
+#$UDPServerRun {{ rsyslog_udp_port }}
+{% endif %}
 
 # provides TCP syslog reception
+{% if rsyslog_tcp_enable %}
+$ModLoad imtcp
+$InputTCPServerAddress {{ rsyslog_tcp_address }}
+$InputTCPServerRun {{ rsyslog_tcp_port }}
+{% else %}
 #$ModLoad imtcp
-#$InputTCPServerRun 514
+#$InputTCPServerRun {{ rsyslog_tcp_port }}
+{% endif %}
 
 # Enable non-kernel facility klog messages
 $KLogPermitNonKernelFacility {{ rsyslog_klog_permit_non_kernel_facility }}
