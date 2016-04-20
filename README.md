@@ -8,13 +8,13 @@ Installs and configures rsyslog
 Requirements
 ------------
 
-This role requires Ansible 1.4 or higher.
+This role requires Ansible 1.9 or higher.
 
 Role Variables
 --------------
 
 | Name                                    | Default                       | Description                                   |
-|-----------------------------------------|-------------------------------|-----------------------------------------------|
+|:----------------------------------------|:------------------------------|:----------------------------------------------|
 | rsyslog_repeated_msg_reduction          | "on"                          | Enable/disable repeated msg redution          |
 | rsyslog_action_file_default_template    | RSYSLOG_TraditionalFileFormat | Action file default template                  |
 | rsyslog_klog_permit_non_kernel_facility | "on"                          | Enable/disable logging of non kernel facility |
