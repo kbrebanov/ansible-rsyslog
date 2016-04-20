@@ -34,14 +34,14 @@ Example Playbook
 ----------------
 
 Install rsyslog
-```
+```yaml
 - hosts: all
   roles:
     - kbrebanov.rsyslog
 ```
 
 Install rsyslog and disable repeated msg reduction
-```
+```yaml
 - hosts: all
   vars:
     rsyslog_repeated_msg_reduction: "off"
@@ -50,7 +50,7 @@ Install rsyslog and disable repeated msg reduction
 ```
 
 Install rsyslog and configure logging options for HAProxy
-```
+```yaml
 - hosts: all
   vars:
     rsyslog_apps:
