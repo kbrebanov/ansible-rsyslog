@@ -1,7 +1,7 @@
 rsyslog
 =======
 
-[![Ansible Role](https://img.shields.io/ansible/role/3392.svg)](https://galaxy.ansible.com/list#/roles/3392)
+[![Build Status](https://travis-ci.org/kbrebanov/ansible-rsyslog.svg?branch=master)](https://travis-ci.org/kbrebanov/ansible-rsyslog)
 
 Installs and configures rsyslog
 
