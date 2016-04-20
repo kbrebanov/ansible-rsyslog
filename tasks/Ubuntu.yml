@@ -2,6 +2,12 @@
 # tasks file for rsyslog (Ubuntu specific)
 
 - name: Install rsyslog packages
-  apt: name={{ item }} state=present update_cache=yes
-  with_items: rsyslog_packages
-  tags: rsyslog
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "{{ rsyslog_packages }}"
+  tags:
+    - rsyslog
