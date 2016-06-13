@@ -6,4 +6,8 @@
 # Uncomment the following to stop logging anything that matches the last rule.
 # Doing this will stop logging kernel generated UFW log messages to the file
 # normally containing kern.* messages (eg, /var/log/kern.log)
+{% if ansible_distribution_release == "xenial" %}
+#& stop
+{% else %}
 #& ~
+{% endif %}

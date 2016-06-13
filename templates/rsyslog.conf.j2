@@ -12,11 +12,26 @@
 #### MODULES ####
 #################
 
+{% if ansible_distribution_release == "xenial" %}
+module(load="imuxsock") # provides support for local system logging
+module(load="imklog")   # provides kernel logging support
+#module(load="immark")  # provides --MARK-- message capability
+{% else %}
 $ModLoad imuxsock # provides support for local system logging
 $ModLoad imklog   # provides kernel logging support
 #$ModLoad immark  # provides --MARK-- message capability
+{% endif %}
 
 # provides UDP syslog reception
+{% if ansible_distribution_release == "xenial" %}
+{% if rsyslog_udp_enable %}
+module(load="imudp")
+input(type="imudp" address="{{ rsyslog_udp_address }}" port="{{ rsyslog_udp_port }}")
+{% else %}
+#module(load="imudp")
+#input(type="imudp" port="{{ rsyslog_udp_port }}")
+{% endif %}
+{% else %}
 {% if rsyslog_udp_enable %}
 $ModLoad imudp
 $UDPServerAddress {{ rsyslog_udp_address }}
@@ -26,8 +41,19 @@ $UDPServerRun {{ rsyslog_udp_port }}
 #$UDPServerAddress {{ rsyslog_udp_address }}
 #$UDPServerRun {{ rsyslog_udp_port }}
 {% endif %}
+{% endif %}
+
 
 # provides TCP syslog reception
+{% if ansible_distribution_release == "xenial" %}
+{% if rsyslog_tcp_enable %}
+module(load="imtcp")
+input(type="imtcp" address="{{ rsyslog_tcp_address }}" port="{{ rsyslog_tcp_port }}")
+{% else %}
+#module(load="imtcp")
+#input(type="imtcp" port="{{ rsyslog_tcp_port }}")
+{% endif %}
+{% else %}
 {% if rsyslog_tcp_enable %}
 $ModLoad imtcp
 $InputTCPServerAddress {{ rsyslog_tcp_address }}
@@ -36,6 +62,8 @@ $InputTCPServerRun {{ rsyslog_tcp_port }}
 #$ModLoad imtcp
 #$InputTCPServerRun {{ rsyslog_tcp_port }}
 {% endif %}
+{% endif %}
+
 
 # Enable non-kernel facility klog messages
 $KLogPermitNonKernelFacility {{ rsyslog_klog_permit_non_kernel_facility }}
