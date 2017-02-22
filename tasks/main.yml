@@ -40,6 +40,17 @@
   tags:
     - rsyslog
 
+- name: Create rsyslog work directory
+  become: yes
+  file:
+    path: "{{ rsyslog_work_directory }}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  tags:
+    - rsyslog
+
 - name: Create rsyslog ufw configuration file
   become: yes
   template:
