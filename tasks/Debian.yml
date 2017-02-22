@@ -1,5 +1,5 @@
 ---
-# tasks file for rsyslog (Ubuntu specific)
+# tasks file for rsyslog (Debian)
 
 - name: Install rsyslog packages
   become: yes
