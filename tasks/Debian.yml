@@ -12,7 +12,7 @@
   tags:
     - rsyslog
 
-- namme: Create rsyslog ufw configuration file
+- name: Create rsyslog ufw configuration file
   become: yes
   template:
     src: 20-ufw.conf.j2
