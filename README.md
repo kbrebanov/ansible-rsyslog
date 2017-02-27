@@ -65,6 +65,32 @@ Install rsyslog and configure logging options for HAProxy
 
 ```
 
+Install rsyslog with multiple configration files. Order matters.
+```yaml
+- hosts: all
+  vars:
+    rsyslog_apps:
+      - name: custom-templates
+      priority: 20
+      lines:
+        - "template(name=\"outputformat_raw\" type=\"string\" string=\"%rawmsg%\" )"
+        - "template(name=\"dynafile_undefined\" type=\"string\" string=\"/var/log/rsyslog/%HOSTNAME%/undefined__%HOSTNAME%__%$YEAR%-%$MONTH%-%$DAY%.log\" )"
+
+      - name: custom-rulesets
+        priority: 30
+        lines:
+          - "ruleset(name=\"ruleset_remote\") {"
+          - "   action(type=\"omfile\" template=\"outputformat_raw\" dynaFile=\"dynafile_undefined\")"
+          - "   stop"
+          - "}"
+
+      - name: custom-listeners
+        priority: 99
+        lines:
+          - "input(type=\"imudp\" port=\"514\" ruleset=\"ruleset_remote\")"
+
+```
+
 License
 -------
 
