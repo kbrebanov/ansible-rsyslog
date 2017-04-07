@@ -1,5 +1,12 @@
 ---
-- hosts: localhost
+-
+  hosts: all
+  pre_tasks:
+    -
+      apt: "update_cache=yes cache_valid_time=600"
+      changed_when: false
+      name: "Update apt cache."
+      when: "ansible_os_family == 'Debian'"
   remote_user: root
   roles:
     - ansible-rsyslog
