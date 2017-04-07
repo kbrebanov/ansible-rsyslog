@@ -1,7 +1,7 @@
 rsyslog
 =======
 
-[![Build Status](https://travis-ci.org/kbrebanov/ansible-rsyslog.svg?branch=master)](https://travis-ci.org/kbrebanov/ansible-rsyslog)
+[![Build Status](https://travis-ci.org/kbrebanov/ansible-rsyslog.svg?branch=master)](https://travis-ci.org/bigUNO/ansible-rsyslog)
 
 Installs and configures rsyslog
 
@@ -100,3 +100,8 @@ Author Information
 ------------------
 
 Kevin Brebanov
+
+## Want to contribute?
+You can [create a GitHub issue](https://github.com/bigUNO/ansible-rsyslog/issues/new) for any feature requests, bugs, or documentation improvements.
+
+Where possible, please [submit a pull request](https://help.github.com/articles/creating-a-pull-request-from-a-fork/) for the change.
