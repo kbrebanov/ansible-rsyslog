@@ -24,7 +24,7 @@ Role Variables
 | rsyslog_tcp_enable                      | false                         | Enable or disable rsyslog to listen on TCP    |
 | rsyslog_tcp_port                        | 514                           | TCP port                                      |
 | rsyslog_apps                            | []                            | List of hashes for app specific configs       |
-
+| rainerscript_rsyslog_conf               | false                         | Uses Rainerscript template for rsyslog.conf   |
 Dependencies
 ------------
 

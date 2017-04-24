@@ -1,0 +1,91 @@
+# {{ ansible_managed }}
+
+{% if ansible_distribution_release == "xenial" or rainerscript_rsyslog_conf %}
+module(load="imuxsock") # provides support for local system logging
+module(load="imklog")   # provides kernel logging support
+module(load="impstats") # input module pstats
+{% else %}
+$ModLoad imuxsock # provides support for local system logging
+$ModLoad imklog   # provides kernel logging support
+$ModLoad impstats # input module pstats
+{% endif %}
+
+# provides UDP syslog reception
+{% if ansible_distribution_release == "xenial" or rainerscript_rsyslog_conf %}
+{% if rsyslog_udp_enable %}
+module(load="imudp") #input module udp
+input(type="imudp" address="{{ rsyslog_udp_address }}" port="{{ rsyslog_udp_port }}")
+{% else %}
+#module(load="imudp")
+#input(type="imudp" port="{{ rsyslog_udp_port }}")
+{% endif %}
+{% else %}
+{% if rsyslog_udp_enable %}
+$ModLoad imudp
+$UDPServerAddress {{ rsyslog_udp_address }}
+$UDPServerRun {{ rsyslog_udp_port }}
+{% else %}
+#$ModLoad imudp
+#$UDPServerAddress {{ rsyslog_udp_address }}
+#$UDPServerRun {{ rsyslog_udp_port }}
+{% endif %}
+{% endif %}
+
+
+# provides TCP syslog reception
+{% if ansible_distribution_release == "xenial" or rainerscript_rsyslog_conf  %}
+{% if rsyslog_tcp_enable %}
+module(load="imtcp")
+input(type="imtcp" address="{{ rsyslog_tcp_address }}" port="{{ rsyslog_tcp_port }}")
+{% else %}
+#module(load="imtcp")
+#input(type="imtcp" port="{{ rsyslog_tcp_port }}")
+{% endif %}
+{% else %}
+{% if rsyslog_tcp_enable %}
+$ModLoad imtcp
+$InputTCPServerAddress {{ rsyslog_tcp_address }}
+$InputTCPServerRun {{ rsyslog_tcp_port }}
+{% else %}
+#$ModLoad imtcp
+#$InputTCPServerRun {{ rsyslog_tcp_port }}
+{% endif %}
+{% endif %}
+
+
+# Enable non-kernel facility klog messages
+$KLogPermitNonKernelFacility {{ rsyslog_klog_permit_non_kernel_facility }}
+
+###########################
+#### GLOBAL DIRECTIVES ####
+###########################
+
+#
+# Use traditional timestamp format.
+# To enable high precision timestamps, comment out the following line.
+#
+$ActionFileDefaultTemplate {{ rsyslog_action_file_default_template }}
+
+# Filter duplicated messages
+$RepeatedMsgReduction {{ rsyslog_repeated_msg_reduction }}
+
+#
+# Set the default permissions for all log files.
+#
+$FileOwner {{ rsyslog_file_owner }}
+$FileGroup {{ rsyslog_file_group }}
+$FileCreateMode {{ rsyslog_file_create_mode }}
+$DirCreateMode {{ rsyslog_dir_create_mode }}
+$Umask {{ rsyslog_umask }}
+$PrivDropToUser {{ rsyslog_priv_drop_to_user }}
+$PrivDropToGroup {{ rsyslog_priv_drop_to_group }}
+
+#
+# Where to place spool and state files
+#
+$WorkDirectory {{ rsyslog_work_directory }}
+
+#
+# Include all config files in /etc/rsyslog.d/
+#
+$IncludeConfig {{ rsyslog_include_config }}

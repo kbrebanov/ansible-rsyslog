@@ -1,6 +1,10 @@
 ---
 -
   hosts: all
+  vars:
+    rsyslog_udp_enable: true
+    rsyslog_udp_port: 514
+    rsyslog_file_owner: "root"
   pre_tasks:
     -
       apt: "update_cache=yes cache_valid_time=600"
