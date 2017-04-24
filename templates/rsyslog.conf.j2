@@ -91,11 +91,11 @@ $DirCreateMode {{ rsyslog_dir_create_mode }}
 $Umask {{ rsyslog_umask }}
 
 {% if rsyslog_priv_drop_to_user %}
-$PrivDropToUser {{ rsyslog_priv_drop_to_user }}
+$PrivDropToUser {{ rsyslog_priv_drop_to_user|default(omit) }}
 {% endif %}
 
 {% if rsyslog_priv_drop_to_group %}
-$PrivDropToGroup {{ rsyslog_priv_drop_to_group }}
+$PrivDropToGroup {{ rsyslog_priv_drop_to_group|default(omit) }}
 {% endif %}
 
 #
