@@ -11,7 +11,7 @@ env:
   - >
     container_id=$(mktemp)
     distribution=debian
-    version=8.7
+    version=8
     init=/sbin/init
     run_opts=""
 
