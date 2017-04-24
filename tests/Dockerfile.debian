@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Install Ansible
 RUN apt-get update && apt-get install -y --no-install-recommends \
      software-properties-common git-core
-RUN apt-get install python-pip
+RUN apt-get install -y python-pip
 RUN pip install --upgrade virtualenv virtualenvwrapper ansible
 
 # Install Ansible inventory file
