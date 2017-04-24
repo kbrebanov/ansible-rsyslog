@@ -12,3 +12,4 @@ rsyslog_tcp_port: 514
 rsyslog_apps: []
 rsyslog_file_create_mode: "0644"
 rainerscript_rsyslog_conf: false
+rsyslog_drop_priv: false
