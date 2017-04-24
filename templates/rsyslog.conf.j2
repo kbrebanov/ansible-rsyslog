@@ -89,8 +89,14 @@ $FileGroup {{ rsyslog_file_group }}
 $FileCreateMode {{ rsyslog_file_create_mode }}
 $DirCreateMode {{ rsyslog_dir_create_mode }}
 $Umask {{ rsyslog_umask }}
+
+{% if rsyslog_priv_drop_to_user %}
 $PrivDropToUser {{ rsyslog_priv_drop_to_user }}
+{% endif %}
+
+{% if rsyslog_priv_drop_to_group %}
 $PrivDropToGroup {{ rsyslog_priv_drop_to_group }}
+{% endif %}
 
 #
 # Where to place spool and state files

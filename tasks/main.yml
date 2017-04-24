@@ -16,7 +16,22 @@
   tags:
     - rsyslog
 
+- name: Create rainerscript rsyslog.conf configuration file
+  when: rainerscript_rsyslog_conf
+  become: yes
+  template:
+    src: rainerscript_rsyslog_conf.j2
+    dest: /etc/rsyslog.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart rsyslog
+  tags:
+    - rsyslog
+
 - name: Create rsyslog.conf configuration file
+  when: rainerscript_rsyslog_conf == false
   become: yes
   template:
     src: rsyslog.conf.j2
