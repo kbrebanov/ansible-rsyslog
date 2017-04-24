@@ -6,7 +6,8 @@ ENV DEBIAN_FRONTEND noninteractive
 # Install Ansible
 RUN apt-get update && apt-get install -y --no-install-recommends \
      software-properties-common git-core
-RUN pip install --upgrade pip virtualenv virtualenvwrapper ansible
+RUN apt-get install python-pip
+RUN pip install --upgrade virtualenv virtualenvwrapper ansible
 
 # Install Ansible inventory file
 RUN echo "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
