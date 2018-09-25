@@ -11,6 +11,16 @@ galaxy_info:
       versions:
         - trusty
         - xenial
+    - name: EL
+      versions:
+        - 7
+        - 6
+    - name: Fedora
+      versions:
+        - 24
+    - name: Debian
+      versions:
+        - jessie
   galaxy_tags:
   - system
 dependencies: []

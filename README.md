@@ -3,7 +3,7 @@
 rsyslog
 =======
 
-[![Build Status](https://travis-ci.org/kbrebanov/ansible-rsyslog.svg?branch=master)](https://travis-ci.org/kbrebanov/ansible-rsyslog)
+[![Build Status](https://travis-ci.org/kbrebanov/ansible-rsyslog.svg?branch=master)](https://travis-ci.org/bigUNO/ansible-rsyslog)
 
 Installs and configures rsyslog
 
@@ -26,7 +26,7 @@ Role Variables
 | rsyslog_tcp_enable                      | false                         | Enable or disable rsyslog to listen on TCP    |
 | rsyslog_tcp_port                        | 514                           | TCP port                                      |
 | rsyslog_apps                            | []                            | List of hashes for app specific configs       |
-
+| rainerscript_rsyslog_conf               | false                         | Uses Rainerscript template for rsyslog.conf   |
 Dependencies
 ------------
 
@@ -67,6 +67,32 @@ Install rsyslog and configure logging options for HAProxy
 
 ```
 
+Install rsyslog with multiple configration files. Order matters.
+```yaml
+- hosts: all
+  vars:
+    rsyslog_apps:
+      - name: custom-templates
+      priority: 20
+      lines:
+        - "template(name=\"outputformat_raw\" type=\"string\" string=\"%rawmsg%\" )"
+        - "template(name=\"dynafile_undefined\" type=\"string\" string=\"/var/log/rsyslog/%HOSTNAME%/undefined__%HOSTNAME%__%$YEAR%-%$MONTH%-%$DAY%.log\" )"
+
+      - name: custom-rulesets
+        priority: 30
+        lines:
+          - "ruleset(name=\"ruleset_remote\") {"
+          - "   action(type=\"omfile\" template=\"outputformat_raw\" dynaFile=\"dynafile_undefined\")"
+          - "   stop"
+          - "}"
+
+      - name: custom-listeners
+        priority: 99
+        lines:
+          - "input(type=\"imudp\" port=\"514\" ruleset=\"ruleset_remote\")"
+
+```
+
 License
 -------
 
@@ -76,3 +102,8 @@ Author Information
 ------------------
 
 Kevin Brebanov
+
+## Want to contribute?
+You can [create a GitHub issue](https://github.com/bigUNO/ansible-rsyslog/issues/new) for any feature requests, bugs, or documentation improvements.
+
+Where possible, please [submit a pull request](https://help.github.com/articles/creating-a-pull-request-from-a-fork/) for the change.

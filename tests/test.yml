@@ -1,5 +1,18 @@
 ---
-- hosts: localhost
+-
+  hosts: all
+  vars:
+    rsyslog_udp_enable: true
+    rsyslog_udp_port: 514
+    rsyslog_file_owner: "root"
+    rsyslog_file_group: "root"
+    rsyslog_umask: "0000"
+  pre_tasks:
+    -
+      apt: "update_cache=yes cache_valid_time=600"
+      changed_when: false
+      name: "Update apt cache."
+      when: "ansible_os_family == 'Debian'"
   remote_user: root
   roles:
     - ansible-rsyslog

@@ -2,21 +2,36 @@
 # tasks file for rsyslog
 
 - name: Include distribution specific variables
-  include_vars: "{{ ansible_distribution }}.yml"
+  include_vars: "{{ ansible_os_family }}.yml"
   tags:
     - rsyslog
 
-- include: CentOS.yml
-  when: ansible_distribution == "CentOS"
+- include: RedHat.yml
+  when: ansible_os_family == "RedHat"
   tags:
     - rsyslog
 
-- include: Ubuntu.yml
-  when: ansible_distribution == "Ubuntu"
+- include: Debian.yml
+  when: ansible_os_family == "Debian"
+  tags:
+    - rsyslog
+
+- name: Create rainerscript rsyslog.conf configuration file
+  when: rainerscript_rsyslog_conf
+  become: yes
+  template:
+    src: rainerscript_rsyslog_conf.j2
+    dest: /etc/rsyslog.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart rsyslog
   tags:
     - rsyslog
 
 - name: Create rsyslog.conf configuration file
+  when: rainerscript_rsyslog_conf == false
   become: yes
   template:
     src: rsyslog.conf.j2
@@ -40,16 +55,14 @@
   tags:
     - rsyslog
 
-- name: Create rsyslog ufw configuration file
+- name: Create rsyslog work directory
   become: yes
-  template:
-    src: 20-ufw.conf.j2
-    dest: /etc/rsyslog.d/20-ufw.conf
+  file:
+    path: "{{ rsyslog_work_directory }}"
     owner: root
     group: root
-    mode: 0644
-  notify:
-    - restart rsyslog
+    mode: 0755
+    state: directory
   tags:
     - rsyslog
 

@@ -1,0 +1,13 @@
+# Dockerfile.debian
+FROM debian:8
+
+ENV DEBIAN_FRONTEND noninteractive
+
+# Install Ansible
+RUN apt-get update && apt-get install -y --no-install-recommends \
+     software-properties-common git-core
+RUN apt-get install -y python-pip
+RUN pip install --upgrade virtualenv virtualenvwrapper ansible
+
+# Install Ansible inventory file
+RUN echo "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts

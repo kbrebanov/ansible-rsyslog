@@ -1,31 +1,19 @@
 # {{ ansible_managed }}
 
-#  /etc/rsyslog.conf	Configuration file for rsyslog.
-#
-#			For more information see
-#			/usr/share/doc/rsyslog-doc/html/rsyslog_conf.html
-#
-#  Default logging rules can be found in /etc/rsyslog.d/50-default.conf
-
-
-#################
-#### MODULES ####
-#################
-
-{% if ansible_distribution_release == "xenial" %}
+{% if ansible_distribution_release == "xenial" or rainerscript_rsyslog_conf %}
 module(load="imuxsock") # provides support for local system logging
 module(load="imklog")   # provides kernel logging support
-#module(load="immark")  # provides --MARK-- message capability
+module(load="impstats") # input module pstats
 {% else %}
 $ModLoad imuxsock # provides support for local system logging
 $ModLoad imklog   # provides kernel logging support
-#$ModLoad immark  # provides --MARK-- message capability
+$ModLoad impstats # input module pstats
 {% endif %}
 
 # provides UDP syslog reception
-{% if ansible_distribution_release == "xenial" %}
+{% if ansible_distribution_release == "xenial" or rainerscript_rsyslog_conf %}
 {% if rsyslog_udp_enable %}
-module(load="imudp")
+module(load="imudp") #input module udp
 input(type="imudp" address="{{ rsyslog_udp_address }}" port="{{ rsyslog_udp_port }}")
 {% else %}
 #module(load="imudp")
@@ -45,7 +33,7 @@ $UDPServerRun {{ rsyslog_udp_port }}
 
 
 # provides TCP syslog reception
-{% if ansible_distribution_release == "xenial" %}
+{% if ansible_distribution_release == "xenial" or rainerscript_rsyslog_conf  %}
 {% if rsyslog_tcp_enable %}
 module(load="imtcp")
 input(type="imtcp" address="{{ rsyslog_tcp_address }}" port="{{ rsyslog_tcp_port }}")
